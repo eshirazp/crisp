@@ -10,16 +10,16 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
         <table>
             <thead key="tableHead">
                 <tr key="headerRow">
-                    <th key={ "sumOfSales" } style={{ backgroundColor: "#C0C0C0", textAlign: "left" }} colSpan={ 2 }>{ "SUM of Sales" }</th>
-                    <th key={ "state" }      style={{ backgroundColor: "#C0C0C0", textAlign: "left" }} colSpan={ states.length+1 }>{ "State" }</th>
+                    <th key={ "sumOfSales" } className={ "header" } colSpan={ 2 }>{ "SUM of Sales" }</th>
+                    <th key={ "state" } className={ "header" } colSpan={ states.length+1 }>{ "State" }</th>
                 </tr>
                 <tr key="headerSubRow">
-                    <th key="category"    style={{ backgroundColor: "#C0C0C0", textAlign: "left" }}>{ "Category" }</th>
-                    <th key="subCategory" style={{ backgroundColor: "#C0C0C0", textAlign: "left" }}>{ "Sub-Category" }</th>
+                    <th key="category" className={ "header" }>{ "Category" }</th>
+                    <th key="subCategory" className={ "header" }>{ "Sub-Category" }</th>
                     {
-                        states.map((state: string) => <th key={ state } style={{ backgroundColor: "#696969", color: "#FFFFFF", textAlign: "left" }}>{ state }</th>)
+                        states.map((state: string) => <th key={ state } className={ "subHeader"} >{ state }</th>)
                     }
-                    <th key="grandTotal" style={{ backgroundColor: "#696969", color: "#FFFFFF", textAlign: "left" }}>{ "Grand Total" }</th>
+                    <th key="grandTotal" className={ "subHeader"}>{ "Grand Total" }</th>
                 </tr>
             </thead>
             <tbody key="tableBody">
@@ -29,7 +29,7 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                             .sort() // organize categories by alphabetic order like in the Google Doc example
                             .map((category: string) => {
                                 const categoryRow = (
-                                    <tr key={ category } style={{ backgroundColor: "#DCDCDC", textAlign: "left" }}>
+                                    <tr key={ category } className={ "bodyHeader "}>
                                         <td key={ category } rowSpan={ getSubCategoryNum(category) }>{ category }</td>
                                     </tr>
                                 )
@@ -40,32 +40,32 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                                         subCategory !== "categoryTotals" && // could do with a filter chained before map but would cause a whole loop again
 
                                             <tr key={ `${ category }-${ subCategory }`}>
-                                                <td key={ `${ category }-${ subCategory }-data`} style={{ backgroundColor: "#DCDCDC", textAlign: "left" }}>{ subCategory }</td>
+                                                <td key={ `${ category }-${ subCategory }-data`} className={ "bodyHeader" }>{ subCategory }</td>
                                                 {
                                                     states.map((state: string) => (
-                                                        <td key={`${ category }-${ subCategory }-${ state }-numbers` } style={{ textAlign: "right" }}>
+                                                        <td key={`${ category }-${ subCategory }-${ state }-numbers` } className={ "data" }>
                                                             { numToStrWithComma(Math.round(data[category][subCategory][state])) }
                                                         </td>
                                                     ))
                                                 }
-                                                <td key={ `${ category }-${ subCategory }-allStates-numbers` } style={{ textAlign: "right" }}>
+                                                <td key={ `${ category }-${ subCategory }-allStates-numbers` } className={ "data" }>
                                                     { numToStrWithComma(Math.round(data[category][subCategory]["allStates"])) }
                                                 </td>
                                             </tr>
                                     ))
 
                                 const totalRow = (
-                                    <tr key={ "total-row" } style={{ backgroundColor: "#DCDCDC", textAlign: "left" }}>
+                                    <tr key={ "total-row" } className={ "bodyHeader" }>
                                         <td key={ "total" }>{ `${ category } Total` }</td>
                                         <td></td>
                                         {
                                             states.map((state: string) => (
-                                                <td key={ `${ category }-${ state }-total-numbers` } style={{ textAlign: "right" }}>
+                                                <td key={ `${ category }-${ state }-total-numbers` } className={ "data" }>
                                                     { numToStrWithComma(Math.round(data[category]["categoryTotals"][state])) }
                                                 </td>
                                             ))
                                         }
-                                        <td key={ `${ category }-allStates-numbers` } style={{ textAlign: "right" }}>
+                                        <td key={ `${ category }-allStates-numbers` } className={ "data" }>
                                             { numToStrWithComma(Math.round(data[category]["categoryTotals"]["allStates"])) }
                                         </td>
                                     </tr>
@@ -74,12 +74,12 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                                 return [categoryRow, ...subCategoryRows, totalRow];
                             })
                     }
-                    <tr key={ "grand-totals-row" } style={{ backgroundColor: "#DCDCDC", textAlign: "left", fontWeight: "bold", borderTop: "1px solid black" }}>
+                    <tr key={ "grand-totals-row" } className={ "grandTotalHeader" }>
                         <td>{ "Grand Total" }</td>
                         <td></td>
                         {
                             states.map((state: string) => (
-                                <td key={ `${state}-grandTotals` } style={{ textAlign: "right" }}>
+                                <td key={ `${state}-grandTotals` } className={ "data" }>
                                     { numToStrWithComma(Math.round(data["grandTotals"] ? data["grandTotals"][state] : 0)) }
                                 </td>
                             ))

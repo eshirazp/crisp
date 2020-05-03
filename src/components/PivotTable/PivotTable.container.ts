@@ -158,6 +158,9 @@ const PivotTableContainer = () => {
         return data;
     }
 
+    /* dynamically create states object (search is faster in object compared to array) to only
+        show states that have data, and checking the state is valid from the utils function
+    */
     const addToStatesList = (state: string) => {
         if(!statesList[state]) {
             if(checkValidState(state))

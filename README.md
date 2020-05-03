@@ -35,7 +35,7 @@ The data is parsed to follow this kind of structure below. All structures in the
 }
 ```
 
-The PivotTable is broken into the container, which all the data is parsed and logic is dealt with. Then there is the view, which handles all the JSX code and rendering onto the page.
+The PivotTable is broken into the container, which all the data is parsed and logic is dealt with. Then there is the view, which handles all the JSX code and rendering onto the page. Styling for the view is done in the CSS file, imported into the view.
 
 Currently grabbing the data is hard coded, but I would imagine that would be replaced by an API fetch call. 
 

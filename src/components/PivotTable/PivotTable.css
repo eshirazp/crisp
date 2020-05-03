@@ -1,3 +1,25 @@
-header {
-    background-color: "#D3D3D3";
+.header {
+    background-color: #D3D3D3;
+    text-align: left;
+}
+
+.subHeader {
+    background-color: #696969;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.bodyHeader {
+    background-color: #DCDCDC;
+    text-align: left;
+}
+
+.grandTotalHeader {
+    background-color: #DCDCDC;
+    text-align: left;
+    font-weight: bold;
+}
+
+.data {
+    text-align: right;
 }
