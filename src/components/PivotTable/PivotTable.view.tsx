@@ -4,13 +4,6 @@ import { numToStrWithComma } from "../../utils";
 import { PivotTablePropsInterface } from "./PivotTable.interface";
 import "./PivotTable.css";
 
-// const styles = {
-//     header: {
-//         backgroundColor: "red"
-//     }
-// }
-
-
 const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInterface) => {
 
     return (
@@ -98,6 +91,7 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
     );
 }
 
+// Checking prop types
 PivotTableView.propTypes = {
     data: PropTypes.object,
     states: PropTypes.array,

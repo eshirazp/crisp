@@ -2,12 +2,12 @@
 To run the code, simply checkout this repo and run `npm install # or yarn` and `npm start # or yarn` 
 The code was written using Typescript, Javascript ES6, JSX, and CSS, along with some Jest test cases.
 
-Throughout the code should be comments to help show my thought process as I was writing the code. 
+Throughout the code should be comments to help show my thought process as I was writing the code (better than I can explain through just one `README.md`) 
 
 ## PivotTable
 The core of this assignment can be found in the `PivotTable` folder, under `components`. The idea here was that I wanted to parse all the pivot data (found in `api/pivotTableJson.ts`) through one loop. This is to reduce on cycles. I could have parsed through the data for partial information, and then grab all the totals while the view was being rendered, but I thought it would be best to do it all through one inital cycle. 
 
-Case sensitive checking is done while parsing the information. For example, one item with state "Alabama" is not different than "aLaBama". This is to help the user out as much as possible with simple human error.
+Case sensitive checking is done while parsing the information. For example, one item with state "Alabama" is not different than "aLaBama". This is to help the user out as much as possible with simple human error. In addition, attempted to do as much error checking (with `console.warn`) as possible. 
 
 The data is parsed to follow this kind of structure below. All structures in the code are defined through Typescript, including ths one
 ```sh
@@ -42,6 +42,9 @@ Currently grabbing the data is hard coded, but I would imagine that would be rep
 The utility functions (functions that could be used by other components in the future) can be found in the `utils` folder
 
 The CSS styling is very basic. To be honest, I did not spend too much time working on that portion.
+
+Side note: I usually work with objects instead of arrays since searching with an object can be more efficient than searching through an array
+
 
 ## Extras
 I added some test cases for the util functions. To run the tests, run `npm test # or yarn` 
