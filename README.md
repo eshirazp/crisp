@@ -1,44 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Welcome!
+To run the code, simply checkout this repo and run `npm install # or yarn` and `npm start # or yarn` 
+The code was written using Typescript, Javascript ES6, JSX, and CSS, along with some Jest test cases.
 
-## Available Scripts
+Throughout the code should be comments to help show my thought process as I was writing the code. 
 
-In the project directory, you can run:
+## PivotTable
+The core of this assignment can be found in the `PivotTable` folder, under `components`. The idea here was that I wanted to parse all the pivot data (found in `api/pivotTableJson.ts`) through one loop. This is to reduce on cycles. I could have parsed through the data for partial information, and then grab all the totals while the view was being rendered, but I thought it would be best to do it all through one inital cycle. Currently grabbing the data is hard coded, but I would imagine that would be replaced by an API fetch call. 
 
-### `yarn start`
+The PivotTable is broken into the container, which all the data is parsed and logic is dealt with. Then there is the view, which handles all the JSX code and rendering onto the page.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The utility functions (functions that could be used by other components in the future) can be found in the `utils` folder
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The CSS styling is very basic. To be honest, I did not spend too much time working on that portion.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Extras
+I added some test cases for the util functions. To run the tests, run `npm test # or yarn` 
