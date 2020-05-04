@@ -44,6 +44,8 @@ The CSS styling is very basic. To be honest, I did not spend too much time worki
 
 Side note: I usually work with objects instead of arrays since searching with an object can be more efficient than searching through an array
 
+Side note: Your Michigan Furniture Total is wrong. The numbers there add up to 12,593 (not 12,594 in your Google Doc example) 
+
 
 ## Extras
 I added some test cases for the util functions. To run the tests, run `npm test # or yarn` 
