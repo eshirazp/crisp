@@ -41,7 +41,7 @@ Currently grabbing the data is hard coded, but I would imagine that would be rep
 
 The utility functions (functions that could be used by other components in the future) can be found in the `utils` folder
 
-The CSS styling is very basic. To be honest, I did not spend too much time working on that portion.
+The CSS styling is very basic. To be honest, I did not spend too much time working on that portion. Styling and CSS of a page are very important, but the reason I did not focus too much on this was that I felt this assignment cared more for the JS logic as opposed to the exact look of the page. 
 
 Side note: I usually work with objects instead of arrays since searching with an object can be more efficient than searching through an array
 
