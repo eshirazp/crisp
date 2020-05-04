@@ -15,7 +15,6 @@ The data is parsed to follow this kind of structure below. All structures in the
     category: { # furniture
         subcategory: { # bookcases
              state: sales, # 'Alabama': 250.23
-             state: sales,
             allStates: # total for all states of subcategory  GRAND TOTAL
         },
         subcategory: { # chairs
