@@ -1,14 +1,173 @@
-import { PivotJsonInterface } from "../components/PivotTable/PivotTable.interface"
+import { SalesApiJsonInterface, SalesApiInterface, SalesApiStatesInterface, SalesApiApi } from "./salesApi.interface";
+import { checkValidState, capFirstCharacter } from "../utils";
 
 /*
-    This is where the API call would go to get the pivot table
+    This is where the API call would go to get the sales table
     JSON data. For now, returning hard coded JSON data below
 */
-export const getPivotTableJson = (): PivotJsonInterface[] => {
-  return pivotTableJson;
+const getSalesApiJson = (): SalesApiJsonInterface[] => {
+  return salesApiJson;
 }
 
-const pivotTableJson: PivotJsonInterface[] = [
+/* Give a detailed console.warn message in terms of which row and key failed */
+const checkErrors = (rowId: number, category: string, subCategory: string, state: string, sales: number): number => {
+  if(!category) {
+      console.warn(`Category was not valid at rowId ${rowId}`);
+      return -1;
+  }
+  else if(!subCategory) {
+      console.warn(`SubCategory was not valid at rowId ${rowId}`);
+      return -1;
+  }
+  else if(!state) {
+      console.warn(`State was not valid at rowId ${rowId}`);
+      return -1;
+  }
+  else if(!sales || sales < 0) {
+      console.warn(`Sales was not valid at rowId ${rowId}`);
+      return -1;
+  }
+
+  return 1;
+}
+
+/* Organize the SalesApiJson into a data structure that can be easily read and fed into the view */
+export const sortData = (): SalesApiApi => {
+  const data: SalesApiInterface = {};
+  const statesList: SalesApiStatesInterface = {};
+  const salesData: SalesApiJsonInterface[] = getSalesApiJson();
+
+  // traditional for loop to more easily work with the indexes of the salesData array
+  for(let i = 0; i < salesData.length; i++) {
+      // capFirstCharacter is eliminating case sensitive situations when parsing the data
+      const rowId = salesData[i].rowId;
+      const category = capFirstCharacter(salesData[i].category);
+      const subCategory = capFirstCharacter(salesData[i].subCategory);
+      const state = capFirstCharacter(salesData[i].state);
+      const sales = salesData[i].sales;
+
+      // if anything in the object is not valid, move onto the next object
+      if (checkErrors(rowId, category, subCategory, state, sales) === -1) continue;
+
+      /*
+          going through the json data and organizing into a data structure
+          separated by categories, subcategories, states, and grand totals
+      */
+      if(data[category]) {                
+          if(data[category][subCategory]) {
+              if(data[category][subCategory][state]) {
+
+                  data[category][subCategory][state] += sales; // each state in a subcategory
+                  data[category][subCategory].allSubcolumns += sales; // combined total for all states in subcategory
+                  data[category].categoryTotals[state] += sales; // category totals for a state
+                  data[category].categoryTotals.allSubcolumns += sales; // combined total for all states in category
+
+                  // grandTotals
+                  data.grandTotals[state] += sales;
+                  data.grandTotals.allSubcolumns += sales;
+              }
+              else { // establishing the state
+
+                  data[category] = {
+                      ...data[category],
+                      [subCategory]: {
+                          ...data[category][subCategory],
+                          [state]: sales,
+                          allSubcolumns: data[category][subCategory].allSubcolumns + sales
+                      },
+                      categoryTotals: {
+                          ...data[category].categoryTotals,
+                          [state]: data[category].categoryTotals[state] 
+                              ? data[category].categoryTotals[state] + sales 
+                              : sales,
+                          allSubcolumns: data[category].categoryTotals.allSubcolumns + sales
+                      }
+                  }
+
+                  data.grandTotals = {
+                      ...data.grandTotals,
+                      [state]: data.grandTotals[state] 
+                          ? data.grandTotals[state] + sales
+                          : sales,
+                      allSubcolumns: data.grandTotals.allSubcolumns + sales
+                  }
+
+                  if(!statesList[state]) {
+                    if(checkValidState(state))
+                      statesList[state] = state;
+                  }
+              }
+          }
+          else { // establishing the sub category 
+
+              data[category] = {
+                  ...data[category],
+                  [subCategory]: {
+                      [state]: sales,
+                      allSubcolumns: sales
+                  },
+                  categoryTotals: {
+                      ...data[category].categoryTotals,
+                      [state]: data[category].categoryTotals[state] 
+                          ? data[category].categoryTotals[state] + sales 
+                          : sales,
+                      allSubcolumns: data[category].categoryTotals.allSubcolumns + sales
+                  }
+              }
+
+              data.grandTotals = {
+                  ...data.grandTotals,
+                  [state]: data.grandTotals[state] 
+                      ? data.grandTotals[state] + sales
+                      : sales,
+                  allSubcolumns: data.grandTotals.allSubcolumns + sales
+              }
+
+              if(!statesList[state]) {
+                if(checkValidState(state))
+                  statesList[state] = state;
+              }
+          }
+      }
+      else { // establishing the category
+
+          data[category] = {
+              [subCategory]: {
+                  [state]: sales,
+                  allSubcolumns: sales
+              },
+              categoryTotals: {
+                  [state]: sales,
+                  allSubcolumns: sales
+              }
+          }
+
+          // establishing the grand totals
+          !data.grandTotals ?
+              data.grandTotals = {
+                  [state]: sales,
+                  allSubcolumns: sales
+              } :
+              data.grandTotals = {
+                  ...data.grandTotals,
+                  [state]: data.grandTotals[state] 
+                      ? data.grandTotals[state] + sales
+                      : sales,
+                      allSubcolumns: data.grandTotals.allSubcolumns + sales
+              }
+
+          if(!statesList[state]) {
+            if(checkValidState(state))
+              statesList[state] = state;
+          }
+      }
+  }
+
+  console.log(data);
+  return { data, statesList }
+}
+
+const salesApiJson: SalesApiJsonInterface[] = [
   {
     "rowId": 1,
     "orderId": "CA-2016-152156",

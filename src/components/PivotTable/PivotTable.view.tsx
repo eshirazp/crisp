@@ -4,20 +4,20 @@ import { numToStrWithComma } from "../../utils";
 import { PivotTablePropsInterface } from "./PivotTable.interface";
 import "./PivotTable.css";
 
-const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInterface) => {
+const PivotTableView = ({ data, subColumns, getSubCategoryNum }: PivotTablePropsInterface) => {
 
     return (
         <table>
             <thead key="tableHead">
                 <tr key="headerRow">
                     <th key={ "sumOfSales" } className={ "header" } colSpan={ 2 }>{ "SUM of Sales" }</th>
-                    <th key={ "state" } className={ "header" } colSpan={ states.length+1 }>{ "State" }</th>
+                    <th key={ "state" } className={ "header" } colSpan={ subColumns.length+1 }>{ "State" }</th>
                 </tr>
                 <tr key="headerSubRow">
                     <th key="category" className={ "header" }>{ "Category" }</th>
                     <th key="subCategory" className={ "header" }>{ "Sub-Category" }</th>
                     {
-                        states.map((state: string) => <th key={ state } className={ "subHeader"} >{ state }</th>)
+                        subColumns.map((subColumn: string) => <th key={ subColumn } className={ "subHeader"} >{ subColumn }</th>)
                     }
                     <th key="grandTotal" className={ "subHeader"}>{ "Grand Total" }</th>
                 </tr>
@@ -25,7 +25,7 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
             <tbody key="tableBody">
                     {                        
                         Object.keys(data)
-                            .filter((category: string) => category !== "grandTotals") // maybe remove filter 
+                            .filter((category: string) => category !== "grandTotals")
                             .sort() // organize categories by alphabetic order like in the Google Doc example
                             .map((category: string) => {
                                 const categoryRow = (
@@ -42,14 +42,14 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                                             <tr key={ `${ category }-${ subCategory }`}>
                                                 <td key={ `${ category }-${ subCategory }-data`} className={ "bodyHeader" }>{ subCategory }</td>
                                                 {
-                                                    states.map((state: string) => (
-                                                        <td key={`${ category }-${ subCategory }-${ state }-numbers` } className={ "data" }>
-                                                            { numToStrWithComma(Math.round(data[category][subCategory][state])) }
+                                                    subColumns.map((subColumn: string) => (
+                                                        <td key={`${ category }-${ subCategory }-${ subColumn }-numbers` } className={ "data" }>
+                                                            { numToStrWithComma(Math.round(data[category][subCategory][subColumn])) }
                                                         </td>
                                                     ))
                                                 }
-                                                <td key={ `${ category }-${ subCategory }-allStates-numbers` } className={ "data" }>
-                                                    { numToStrWithComma(Math.round(data[category][subCategory]["allStates"])) }
+                                                <td key={ `${ category }-${ subCategory }-allSubcolumns-numbers` } className={ "data" }>
+                                                    { numToStrWithComma(Math.round(data[category][subCategory]["allSubcolumns"])) }
                                                 </td>
                                             </tr>
                                     ))
@@ -59,14 +59,14 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                                         <td key={ "total" }>{ `${ category } Total` }</td>
                                         <td></td>
                                         {
-                                            states.map((state: string) => (
-                                                <td key={ `${ category }-${ state }-total-numbers` } className={ "data" }>
-                                                    { numToStrWithComma(Math.round(data[category]["categoryTotals"][state])) }
+                                            subColumns.map((subColumn: string) => (
+                                                <td key={ `${ category }-${ subColumn }-total-numbers` } className={ "data" }>
+                                                    { numToStrWithComma(Math.round(data[category]["categoryTotals"][subColumn])) }
                                                 </td>
                                             ))
                                         }
-                                        <td key={ `${ category }-allStates-numbers` } className={ "data" }>
-                                            { numToStrWithComma(Math.round(data[category]["categoryTotals"]["allStates"])) }
+                                        <td key={ `${ category }-allSubcolumns-numbers` } className={ "data" }>
+                                            { numToStrWithComma(Math.round(data[category]["categoryTotals"]["allSubcolumns"])) }
                                         </td>
                                     </tr>
                                 )
@@ -78,13 +78,13 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
                         <td>{ "Grand Total" }</td>
                         <td></td>
                         {
-                            states.map((state: string) => (
-                                <td key={ `${state}-grandTotals` } className={ "data" }>
-                                    { numToStrWithComma(Math.round(data["grandTotals"] ? data["grandTotals"][state] : 0)) }
+                            subColumns.map((subColumn: string) => (
+                                <td key={ `${subColumn}-grandTotals` } className={ "data" }>
+                                    { numToStrWithComma(Math.round(data["grandTotals"] ? data["grandTotals"][subColumn] : 0)) }
                                 </td>
                             ))
                         }
-                        <td key={ "allStates-grandTotals" }>{ numToStrWithComma(Math.round(data["grandTotals"] ? data["grandTotals"]["allStates"] : 0)) }</td>
+                        <td key={ "allSubcolumns-grandTotals" }>{ numToStrWithComma(Math.round(data["grandTotals"] ? data["grandTotals"]["allSubcolumns"] : 0)) }</td>
                     </tr>
             </tbody>
         </table>
@@ -94,7 +94,7 @@ const PivotTableView = ({ data, states, getSubCategoryNum }: PivotTablePropsInte
 // Checking prop types
 PivotTableView.propTypes = {
     data: PropTypes.object,
-    states: PropTypes.array,
+    subColumns: PropTypes.array,
     getSubCategoryNum: PropTypes.func
 }
 
