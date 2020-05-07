@@ -11,9 +11,11 @@ The code flow can be broken down to the `api` layer grabs the sales data and par
 The container handles any logic, while the view handles all the JSX code for rendering. Styling for the view is done in the CSS file, imported into the view. The CSS styling is very basic. To be honest, I did not spend too much time working on that portion. Styling and CSS of a page are very important, but the reason I did not focus too much on this was that I felt this assignment cared more for the JS logic as opposed to the exact look of the page.
 
 ## SalesApi
-For the `api` layer, the idea here was that I wanted to parse all the sales data (found in `api/sales.api.ts`) through one loop. This is to reduce on cycles. I could have parsed through the data for partial information, and then grab all the totals while the view was being rendered, but I thought it would be best to do it all through one inital cycle. Currently grabbing the data is hard coded, but I would imagine that would be replaced by an API fetch call. 
+For the `api` layer, the idea here was that I wanted to parse all the sales data (found in `api/sales.api.ts`) through one loop. This is to reduce on cycles. I could have parsed through the data for partial information, and then grab all the totals while the view was being rendered, but I thought it would be best to do it all through one initial cycle. Currently grabbing the data is hard coded, but I would imagine that would be replaced by an API fetch call. 
 
 Case sensitive checking is done while parsing the information. For example, one item with state "Alabama" is not different than "aLaBama" or category "furniture" compared to "Furniture". This is to help the user out as much as possible with simple human error. In addition, attempted to do as much error checking (with `console.warn`) as possible. 
+
+Side note: In the dev console, I do a `console.log` for the final data object as the `PivotTable.container` receives it. 
 
 The PivotTable component was designed to be generic, so that it would not be tied down to just this specific sales data. It does assume though that the data does follow the structure below. 
 ```sh
